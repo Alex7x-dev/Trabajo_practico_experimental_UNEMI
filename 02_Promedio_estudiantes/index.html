@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table border="">
+    <th colspan="4">
+        <tr>
+            <td colspan="4" align="center">Promedio de Calificaciones</td>
+        </tr>
+    </th>
+    <tbody>
+        <tr>
+            <td>Nota</td>
+            <td>
+                <input type="number" id="txt-nota" placeholder="Ingrese nota: 0 a 10">
+            </td>
+            <td>Tope: 12 estudiantes</td>
+            <td>
+                <button type="" id="btn-agregar-nota">Agregar</button>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Listado de notas</td>
+            <td>
+                <textarea
+                    id="txt-listado-notas"
+                    placeholder="Listado de notas"
+                    rows="6"
+                    readonly>
+                </textarea>
+            </td>
+            <td>
+                <button type="" id="btn-presentar-notas">
+                    Presentar
+                </button>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Promedio</td>
+            <td>
+                <input
+                    type="text"
+                    readonly
+                    placeholder="0.00"
+                    id="txt-promedio">
+            </td>
+            <td>
+                <button id="btn-calcular-promedio" type="">
+                    Calcular promedio
+                </button>
+            </td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>Aprobados</td>
+            <td>
+                <input
+                    type="text"
+                    readonly
+                    placeholder="0"
+                    id="txt-aprobados">
+            </td>
+            <td>Nota mínima: 7</td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>Reprobados</td>
+            <td>
+                <input
+                    type="text"
+                    readonly
+                    placeholder="0"
+                    id="txt-reprobados">
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+
+    </tbody>
+</table>
+<script>
+    const txtNota = document.getElementById('txt-nota');
+    const btnAgregarNota = document.getElementById('btn-agregar-nota');
+
+    const txtListadoNotas = document.getElementById('txt-listado-notas');
+    const btnPresentarNotas = document.getElementById('btn-presentar-notas');
+
+    const txtPromedio = document.getElementById('txt-promedio');
+    const btnCalcularPromedio = document.getElementById('btn-calcular-promedio');
+
+    const txtAprobados = document.getElementById('txt-aprobados');
+    const txtReprobados = document.getElementById('txt-reprobados');
+
+    const TOPE = 12;
+    let notas = [];
+    btnAgregarNota.addEventListener('click', function(e){
+        const nota = parseFloat(txtNota.value);
+        const cantNotas = notas.length;
+
+        if(cantNotas < TOPE){
+            const indice = cantNotas;
+            notas[indice] = nota;
+            console.log('notas: ', notas);
+            txtNota.value = '';
+        }
+        else{
+            alert('Ingresar solo 12 notas');
+        };
+    } );
+
+    btnPresentarNotas.addEventListener('click', function(e){
+        txtListadoNotas.value = '';
+        for(let i = 0; i < notas.length; i++){
+            txtListadoNotas.value += notas[i] + '\n';
+        };
+    });
+
+    btnCalcularPromedio.addEventListener('click', function(e){
+        txtPromedio.value = promedio().toFixed(2);
+    });
+    function promedio(){
+        let total = 0;
+        let aprobados = 0;
+        let reprobados = 0;
+        for(let i = 0; i < notas.length; i++){
+            total = total + notas[i]
+            if(notas[i] < 7){
+                reprobados ++;
+            }else{
+                aprobados++;
+            }
+        }
+        txtAprobados.value = aprobados;
+        txtReprobados.value = reprobados;
+        return total/notas.length;
+        
+    };
+
+</script>
+</body>
+</html>
